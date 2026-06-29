@@ -35,7 +35,7 @@ function LoginForm() {
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <div className="text-5xl mb-3">🏸</div>
-          <h1 className="text-2xl font-bold">Courtly Auction</h1>
+          <h1 className="text-2xl font-bold">BORAuctionly</h1>
           <p className="text-gray-400 text-sm mt-1">Admin access required</p>
         </div>
         <form onSubmit={handleSubmit} className="bg-gray-900 border border-gray-800 rounded-2xl p-8 flex flex-col gap-4">

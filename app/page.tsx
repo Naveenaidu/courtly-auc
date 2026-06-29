@@ -66,7 +66,7 @@ export default function HomePage() {
       <div className="min-h-screen flex flex-col items-center justify-center gap-6 p-8">
         <div className="text-center">
           <div className="text-6xl mb-4">🏸</div>
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">Courtly Auction</h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-2">BORAuctionly</h1>
           <p className="text-gray-400 text-base md:text-lg">Badminton Player Auction System</p>
         </div>
         <div className="flex flex-col sm:flex-row gap-3 w-full max-w-xs sm:max-w-none sm:w-auto">
@@ -95,7 +95,7 @@ export default function HomePage() {
       <div className="bg-gray-900 border-b border-gray-800 px-4 md:px-6 py-3 md:py-4 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-2 md:gap-3">
           <span className="text-xl md:text-2xl">🏸</span>
-          <h1 className="text-base md:text-xl font-bold">Courtly Auction</h1>
+          <h1 className="text-base md:text-xl font-bold">BORAuctionly</h1>
         </div>
         <div className="flex gap-2 md:gap-3">
           <Link

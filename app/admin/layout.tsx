@@ -20,7 +20,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="p-5 border-b border-gray-800">
           <div className="flex items-center gap-2">
             <span className="text-xl">🏸</span>
-            <span className="font-bold text-lg">Courtly</span>
+            <span className="font-bold text-lg">BORAuctionly</span>
           </div>
           <div className="text-xs text-gray-500 mt-0.5">Admin Panel</div>
         </div>
