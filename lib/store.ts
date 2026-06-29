@@ -21,6 +21,7 @@ interface StoreActions {
   setCurrentPot: (pot: number | undefined) => void;
   setPotNames: (names: string[]) => void;
   assignPlayer: (playerId: string, teamId: string, price: number) => void;
+  updateSoldPrice: (playerId: string, newPrice: number) => void;
   markUnsold: (playerId: string) => void;
   unassignPlayer: (playerId: string) => void;
   resetAuction: () => void;
@@ -221,6 +222,23 @@ export const useStore = create<Store>()(
                 : t
             ),
             auction: { ...state.auction, currentPlayerId: undefined },
+          };
+        }),
+
+      updateSoldPrice: (playerId, newPrice) =>
+        set((state) => {
+          const player = state.players.find((p) => p.id === playerId);
+          if (!player || !player.teamId) return state;
+          const diff = newPrice - (player.soldPrice ?? 0);
+          return {
+            players: state.players.map((p) =>
+              p.id === playerId ? { ...p, soldPrice: newPrice } : p
+            ),
+            teams: state.teams.map((t) =>
+              t.id === player.teamId
+                ? { ...t, remainingPurse: t.remainingPurse - diff }
+                : t
+            ),
           };
         }),
 

@@ -24,6 +24,7 @@ export default function AuctionPage() {
     setCurrentPlayer,
     setPhase,
     assignPlayer,
+    updateSoldPrice,
     markUnsold,
     setCurrentPot,
     setPotNames,
@@ -33,6 +34,8 @@ export default function AuctionPage() {
   const [selectedTeamId, setSelectedTeamId] = useState<string>("");
   const [activePot, setActivePot] = useState<number>(auction.currentPot ?? 1);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [editingPriceId, setEditingPriceId] = useState<string | null>(null);
+  const [editingPriceValue, setEditingPriceValue] = useState<string>("");
 
   const potNames = auction.potNames ?? DEFAULT_POT_NAMES;
 
@@ -96,6 +99,15 @@ export default function AuctionPage() {
       setSelectedTeamId("");
       syncToServer();
     }
+  }
+
+  function handleSavePrice(playerId: string) {
+    const parsed = parseInt(editingPriceValue);
+    if (!isNaN(parsed) && parsed >= 0) {
+      updateSoldPrice(playerId, parsed);
+      syncToServer();
+    }
+    setEditingPriceId(null);
   }
 
   const soldCount = players.filter((p) => p.status === "sold").length;
@@ -378,16 +390,61 @@ export default function AuctionPage() {
                   />
                 </div>
                 {teamPlayers.length > 0 && (
-                  <div className="mt-2 flex flex-col gap-1">
+                  <div className="mt-2 flex flex-col gap-1.5">
                     {teamPlayers.map((p) => (
-                      <div
-                        key={p.id}
-                        className="flex justify-between text-xs text-gray-400"
-                      >
-                        <span>{p.name}</span>
-                        <span className="text-indigo-400">
-                          {p.soldPrice !== undefined ? `₹${p.soldPrice.toLocaleString()}` : "—"}
+                      <div key={p.id} className="flex items-center gap-1 text-xs text-gray-400">
+                        <span className="flex-1 truncate">
+                          {p.name}
+                          {p.isCaptain && (
+                            <span className="ml-1 text-yellow-500">★</span>
+                          )}
                         </span>
+                        {editingPriceId === p.id ? (
+                          <div className="flex items-center gap-1">
+                            <input
+                              type="number"
+                              autoFocus
+                              value={editingPriceValue}
+                              onChange={(e) => setEditingPriceValue(e.target.value)}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter") handleSavePrice(p.id);
+                                if (e.key === "Escape") setEditingPriceId(null);
+                              }}
+                              className="w-20 bg-gray-700 border border-indigo-500 rounded px-1.5 py-0.5 text-white focus:outline-none"
+                              min={0}
+                            />
+                            <button
+                              onClick={() => handleSavePrice(p.id)}
+                              className="text-green-400 hover:text-green-300 font-bold"
+                              title="Save"
+                            >
+                              ✓
+                            </button>
+                            <button
+                              onClick={() => setEditingPriceId(null)}
+                              className="text-gray-500 hover:text-gray-300"
+                              title="Cancel"
+                            >
+                              ✕
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-1">
+                            <span className="text-indigo-400">
+                              {p.soldPrice !== undefined ? `₹${p.soldPrice.toLocaleString()}` : "—"}
+                            </span>
+                            <button
+                              onClick={() => {
+                                setEditingPriceId(p.id);
+                                setEditingPriceValue(String(p.soldPrice ?? 0));
+                              }}
+                              className="text-gray-600 hover:text-gray-300 transition-colors"
+                              title="Edit price"
+                            >
+                              ✏
+                            </button>
+                          </div>
+                        )}
                       </div>
                     ))}
                   </div>

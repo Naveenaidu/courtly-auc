@@ -66,19 +66,19 @@ export default function HomePage() {
       <div className="min-h-screen flex flex-col items-center justify-center gap-6 p-8">
         <div className="text-center">
           <div className="text-6xl mb-4">🏸</div>
-          <h1 className="text-4xl font-bold mb-2">Courtly Auction</h1>
-          <p className="text-gray-400 text-lg">Badminton Player Auction System</p>
+          <h1 className="text-3xl md:text-4xl font-bold mb-2">Courtly Auction</h1>
+          <p className="text-gray-400 text-base md:text-lg">Badminton Player Auction System</p>
         </div>
-        <div className="flex gap-4">
+        <div className="flex flex-col sm:flex-row gap-3 w-full max-w-xs sm:max-w-none sm:w-auto">
           <Link
             href="/admin"
-            className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 rounded-lg font-semibold transition-colors"
+            className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 rounded-lg font-semibold transition-colors text-center"
           >
             Admin Panel
           </Link>
           <Link
             href="/results"
-            className="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-semibold transition-colors"
+            className="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-semibold transition-colors text-center"
           >
             Results
           </Link>
@@ -91,42 +91,44 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <div className="bg-gray-900 border-b border-gray-800 px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <span className="text-2xl">🏸</span>
-          <h1 className="text-xl font-bold">Courtly Auction</h1>
+      {/* Header */}
+      <div className="bg-gray-900 border-b border-gray-800 px-4 md:px-6 py-3 md:py-4 flex items-center justify-between shrink-0">
+        <div className="flex items-center gap-2 md:gap-3">
+          <span className="text-xl md:text-2xl">🏸</span>
+          <h1 className="text-base md:text-xl font-bold">Courtly Auction</h1>
         </div>
-        <div className="flex gap-3">
+        <div className="flex gap-2 md:gap-3">
           <Link
             href="/results"
-            className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm font-medium transition-colors"
+            className="px-3 md:px-4 py-1.5 md:py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-xs md:text-sm font-medium transition-colors"
           >
             Results
           </Link>
           <Link
             href="/admin/auction"
-            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-sm font-medium transition-colors"
+            className="px-3 md:px-4 py-1.5 md:py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-xs md:text-sm font-medium transition-colors"
           >
             Admin
           </Link>
         </div>
       </div>
 
-      <div className="flex flex-1 overflow-hidden">
+      {/* Main content: stacked on mobile, side-by-side on desktop */}
+      <div className="flex flex-col md:flex-row flex-1 md:overflow-hidden">
         {/* Centre: current player */}
-        <div className="flex-1 flex flex-col items-center justify-center p-8">
+        <div className="flex-1 flex flex-col items-center justify-center p-6 md:p-8 py-10 md:py-8">
           {currentPlayer ? (
-            <div className="text-center">
+            <div className="text-center w-full max-w-sm md:max-w-none">
               <div className="text-sm font-medium text-indigo-400 uppercase tracking-widest mb-3">
                 Now Up for Bid
               </div>
-              <div className="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-3xl px-14 py-10 shadow-2xl mb-5">
-                <div className="text-5xl font-black mb-3 leading-tight">{currentPlayer.name}</div>
-                <div className="flex items-center justify-center gap-3">
+              <div className="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-3xl px-8 py-8 md:px-14 md:py-10 shadow-2xl mb-5">
+                <div className="text-3xl md:text-5xl font-black mb-3 leading-tight">{currentPlayer.name}</div>
+                <div className="flex items-center justify-center gap-2 md:gap-3 flex-wrap">
                   <span className={`text-sm font-bold px-3 py-1 rounded-full ${currentPlayer.gender === "F" ? "bg-pink-700 text-pink-100" : "bg-blue-700 text-blue-100"}`}>
                     {currentPlayer.gender === "F" ? "Female" : "Male"}
                   </span>
-                  <span className="text-indigo-200 text-lg">Pot {currentPlayer.pot}</span>
+                  <span className="text-indigo-200 text-base md:text-lg">Pot {currentPlayer.pot}</span>
                   {currentPlayer.isCaptain && (
                     <span className="bg-yellow-500 text-yellow-900 text-sm font-bold px-3 py-1 rounded-full">
                       CAPTAIN
@@ -138,20 +140,20 @@ export default function HomePage() {
             </div>
           ) : (
             <div className="text-center text-gray-500">
-              <div className="text-6xl mb-4">⏳</div>
-              <div className="text-2xl font-semibold">Waiting for next player...</div>
+              <div className="text-5xl md:text-6xl mb-4">⏳</div>
+              <div className="text-xl md:text-2xl font-semibold">Waiting for next player...</div>
             </div>
           )}
         </div>
 
-        {/* Right: Teams sidebar */}
-        <div className="w-96 bg-gray-900 border-l border-gray-800 flex flex-col overflow-hidden">
-          <div className="px-5 py-4 border-b border-gray-800">
+        {/* Teams sidebar: full-width below on mobile, fixed-width column on desktop */}
+        <div className="w-full md:w-96 bg-gray-900 border-t md:border-t-0 md:border-l border-gray-800 flex flex-col md:overflow-hidden">
+          <div className="px-5 py-3 md:py-4 border-b border-gray-800">
             <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest">
               Teams &amp; Purse
             </h2>
           </div>
-          <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-3">
+          <div className="overflow-y-auto p-3 md:p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-3">
             {teams.map((team, idx) => {
               const color = TEAM_PALETTE[idx % TEAM_PALETTE.length];
               const captain = players.find((p) => p.id === team.captainId);
@@ -172,12 +174,12 @@ export default function HomePage() {
                       ? `0 0 0 2px ${color}, 0 0 24px ${color}55`
                       : undefined,
                   }}
-                  className="border-l-4 bg-gray-800 rounded-xl p-4 border border-gray-700 transition-all duration-500"
+                  className="border-l-4 bg-gray-800 rounded-xl p-3 md:p-4 border border-gray-700 transition-all duration-500"
                 >
                   {/* Team name + purse */}
                   <div className="flex justify-between items-start mb-2">
                     <div>
-                      <div className="text-base font-bold leading-tight" style={{ color }}>
+                      <div className="text-sm md:text-base font-bold leading-tight" style={{ color }}>
                         {team.name}
                       </div>
                       {captain && (
@@ -187,7 +189,7 @@ export default function HomePage() {
                       )}
                     </div>
                     <div className="text-right">
-                      <div className="text-lg font-bold" style={{ color }}>
+                      <div className="text-base md:text-lg font-bold" style={{ color }}>
                         ₹{team.remainingPurse.toLocaleString()}
                       </div>
                       <div className="text-xs text-gray-500">remaining</div>

@@ -56,7 +56,7 @@ export default function ResultsPage() {
     const active = sortKey === k;
     return (
       <th
-        className="px-5 py-3 text-left cursor-pointer select-none hover:text-white transition-colors"
+        className="px-3 md:px-5 py-3 text-left cursor-pointer select-none hover:text-white transition-colors"
         onClick={() => toggleSort(k)}
       >
         <span className={active ? "text-white" : "text-gray-400"}>
@@ -72,28 +72,28 @@ export default function ResultsPage() {
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <div className="bg-gray-900 border-b border-gray-800 px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
+      <div className="bg-gray-900 border-b border-gray-800 px-4 md:px-6 py-3 md:py-4 flex items-center justify-between">
+        <div className="flex items-center gap-2 md:gap-3">
           <span className="text-xl">🏸</span>
-          <h1 className="font-bold text-lg">Auction Results</h1>
+          <h1 className="font-bold text-base md:text-lg">Auction Results</h1>
         </div>
-        <div className="flex gap-3">
+        <div className="flex gap-2 md:gap-3">
           <Link
             href="/"
-            className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm font-medium transition-colors"
+            className="px-3 md:px-4 py-1.5 md:py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-xs md:text-sm font-medium transition-colors"
           >
-            Public View
+            Live View
           </Link>
           <Link
             href="/admin"
-            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-sm font-medium transition-colors"
+            className="px-3 md:px-4 py-1.5 md:py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-xs md:text-sm font-medium transition-colors"
           >
             Admin
           </Link>
         </div>
       </div>
 
-      <div className="p-8">
+      <div className="p-4 md:p-8">
         {/* Summary stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {[
@@ -157,11 +157,11 @@ export default function ResultsPage() {
         </div>
 
         {/* Filters */}
-        <div className="flex flex-wrap gap-3 mb-4">
+        <div className="flex flex-col sm:flex-row gap-3 mb-4">
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"
+            className="flex-1 sm:flex-none bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"
           >
             <option value="all">All Status</option>
             <option value="sold">Sold</option>
@@ -171,7 +171,7 @@ export default function ResultsPage() {
           <select
             value={filterTeam}
             onChange={(e) => setFilterTeam(e.target.value)}
-            className="bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"
+            className="flex-1 sm:flex-none bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"
           >
             <option value="all">All Teams</option>
             {teams.map((t) => (
@@ -185,58 +185,60 @@ export default function ResultsPage() {
 
         {/* Players table */}
         <div className="bg-gray-800 rounded-xl overflow-hidden">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-gray-700">
-                <SortHeader label="Player" k="name" />
-                <SortHeader label="Pot" k="pot" />
-                <SortHeader label="Team" k="team" />
-                <SortHeader label="Price" k="price" />
-                <th className="px-5 py-3 text-left text-gray-400">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredPlayers.map((p) => {
-                const team = teams.find((t) => t.id === p.teamId);
-                return (
-                  <tr key={p.id} className="border-b border-gray-700/50 hover:bg-gray-750">
-                    <td className="px-5 py-3 font-medium">
-                      {p.name}
-                      {p.isCaptain && (
-                        <span className="ml-2 text-xs bg-yellow-900/50 text-yellow-400 px-1.5 py-0.5 rounded">
-                          CAP
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm min-w-[480px]">
+              <thead>
+                <tr className="border-b border-gray-700">
+                  <SortHeader label="Player" k="name" />
+                  <SortHeader label="Pot" k="pot" />
+                  <SortHeader label="Team" k="team" />
+                  <SortHeader label="Price" k="price" />
+                  <th className="px-3 md:px-5 py-3 text-left text-gray-400">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredPlayers.map((p) => {
+                  const team = teams.find((t) => t.id === p.teamId);
+                  return (
+                    <tr key={p.id} className="border-b border-gray-700/50 hover:bg-gray-750">
+                      <td className="px-3 md:px-5 py-3 font-medium">
+                        {p.name}
+                        {p.isCaptain && (
+                          <span className="ml-2 text-xs bg-yellow-900/50 text-yellow-400 px-1.5 py-0.5 rounded">
+                            CAP
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-3 md:px-5 py-3 text-gray-400">Pot {p.pot}</td>
+                      <td className="px-3 md:px-5 py-3">{team?.name ?? <span className="text-gray-500">—</span>}</td>
+                      <td className="px-3 md:px-5 py-3">
+                        {p.soldPrice !== undefined ? (
+                          <span className="text-indigo-400 font-semibold">
+                            ₹{p.soldPrice.toLocaleString()}
+                          </span>
+                        ) : (
+                          <span className="text-gray-500">—</span>
+                        )}
+                      </td>
+                      <td className="px-3 md:px-5 py-3">
+                        <span
+                          className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
+                            p.status === "sold"
+                              ? "bg-green-900 text-green-400"
+                              : p.status === "unsold"
+                              ? "bg-red-900 text-red-400"
+                              : "bg-gray-700 text-gray-300"
+                          }`}
+                        >
+                          {p.status}
                         </span>
-                      )}
-                    </td>
-                    <td className="px-5 py-3 text-gray-400">Pot {p.pot}</td>
-                    <td className="px-5 py-3">{team?.name ?? <span className="text-gray-500">—</span>}</td>
-                    <td className="px-5 py-3">
-                      {p.soldPrice !== undefined ? (
-                        <span className="text-indigo-400 font-semibold">
-                          ₹{p.soldPrice.toLocaleString()}
-                        </span>
-                      ) : (
-                        <span className="text-gray-500">—</span>
-                      )}
-                    </td>
-                    <td className="px-5 py-3">
-                      <span
-                        className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
-                          p.status === "sold"
-                            ? "bg-green-900 text-green-400"
-                            : p.status === "unsold"
-                            ? "bg-red-900 text-red-400"
-                            : "bg-gray-700 text-gray-300"
-                        }`}
-                      >
-                        {p.status}
-                      </span>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
           {filteredPlayers.length === 0 && (
             <div className="text-center py-12 text-gray-500">No players match the filters.</div>
           )}
